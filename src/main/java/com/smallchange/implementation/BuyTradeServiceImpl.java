@@ -1,6 +1,6 @@
 package com.smallchange.implementation;
 
-import com.smallchange.db.IDbServiceImpl;
+import com.smallchange.dao.BuyDaoImpl;
 import com.smallchange.entities.BuyReqEntity;
 import com.smallchange.entities.SecurityEntity;
 import com.smallchange.services.IBuyTradeService;
@@ -14,7 +14,7 @@ import java.util.Date;
 public class BuyTradeServiceImpl implements IBuyTradeService {
 
     @Autowired
-    IDbServiceImpl db;
+    BuyDaoImpl db;
 
     public boolean sufficientBalance(String accountNumber, double value) throws SQLException {
         double balance = db.getAccountBalance(accountNumber);

@@ -45,8 +45,6 @@ public class IDbServiceImpl implements IDbService {
         while(resultSet.next()) {
             balance = Double.parseDouble(resultSet.getString(1));
         }
-
-        System.err.println("Balance iDbServiceImpl.getAccountBalance(): " + balance);
         return balance;
     }
 

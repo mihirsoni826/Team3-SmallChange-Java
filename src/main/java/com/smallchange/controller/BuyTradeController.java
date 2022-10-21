@@ -11,10 +11,6 @@ class BuyTradeController {
     @Autowired
     BuyTradeServiceImpl buyTradeSvc;
 
-    @GetMapping("/")
-    public String landingPage() {
-        return "Working";
-    }
 
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
     public boolean postBuyTrade(@RequestBody BuyReqEntity reqBody) {

@@ -1,6 +1,6 @@
 package com.smallchange.controller;
 
-import com.smallchange.buytrade.BuyTradeServiceImpl;
+import com.smallchange.implementation.BuyTradeServiceImpl;
 import com.smallchange.entities.BuyReqEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

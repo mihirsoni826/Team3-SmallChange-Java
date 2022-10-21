@@ -1,4 +1,4 @@
-package com.smallchange.db;
+package com.smallchange.dao;
 
 import com.smallchange.entities.PortfolioEntity;
 

@@ -1,6 +1,7 @@
-package com.smallchange.db;
+package com.smallchange.dao;
 
 import com.smallchange.connectionfactory.ConnectionFactory;
+import com.smallchange.dao.IPortfolioDao;
 import com.smallchange.entities.PortfolioEntity;
 import org.springframework.stereotype.Component;
 

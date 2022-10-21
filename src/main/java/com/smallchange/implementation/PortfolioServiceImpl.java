@@ -1,6 +1,6 @@
 package com.smallchange.implementation;
 
-import com.smallchange.db.PortfolioDaoImpl;
+import com.smallchange.dao.PortfolioDaoImpl;
 import com.smallchange.entities.PortfolioEntity;
 import com.smallchange.services.IPortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;

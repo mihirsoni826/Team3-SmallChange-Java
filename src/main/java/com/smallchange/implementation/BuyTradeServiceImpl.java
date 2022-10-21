@@ -2,6 +2,7 @@ package com.smallchange.implementation;
 
 import com.smallchange.db.IDbServiceImpl;
 import com.smallchange.entities.BuyReqEntity;
+import com.smallchange.entities.SecurityEntity;
 import com.smallchange.services.IBuyTradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
     @Autowired
     IDbServiceImpl db;
 
-    public boolean sufficientBalance(int accountNumber, double value) throws SQLException {
+    public boolean sufficientBalance(String accountNumber, double value) throws SQLException {
         double balance = db.getAccountBalance(accountNumber);
         return balance >= value;
     }
@@ -26,10 +27,18 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
 
     @Override
     public boolean postBuyTrade(BuyReqEntity reqBody) {
-        Date date = convertMilliToDate(reqBody.getTimeMilli());
+        Date date = convertMilliToDate(reqBody.getTimeInMilliseconds());
         reqBody.setDateOfPurchase(date.toString());
+
+        SecurityEntity populatedSecurityObj = getSecurityDetails((reqBody.getSecurity().getTicker()));
+        reqBody.getSecurity().setAccountType(populatedSecurityObj.getAccountType());
+        reqBody.getSecurity().setSecurityName(populatedSecurityObj.getSecurityName());
+        reqBody.getSecurity().setMarketPrice(populatedSecurityObj.getMarketPrice());
+        reqBody.getSecurity().setAssetClass(populatedSecurityObj.getAssetClass());
+        reqBody.getSecurity().setSubAccountType(populatedSecurityObj.getSubAccountType());
+
         System.out.println(reqBody);
-        double value = reqBody.getQuantity() * reqBody.getSecurityPrice();
+        double value = reqBody.getQuantity() * reqBody.getSecurity().getMarketPrice();
 
         try {
             if(sufficientBalance(reqBody.getAccountNumber(), value)) {
@@ -44,5 +53,16 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public SecurityEntity getSecurityDetails(String ticker) {
+        SecurityEntity security = null;
+        try {
+            security = db.getSecurityEntity(ticker);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return security;
     }
 }

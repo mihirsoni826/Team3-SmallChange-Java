@@ -2,6 +2,8 @@ package com.smallchange.db;
 
 import com.smallchange.connectionfactory.ConnectionFactory;
 import com.smallchange.entities.BuyReqEntity;
+import com.smallchange.entities.SecurityEntity;
+import oracle.jdbc.proxy.annotation.Pre;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -32,11 +34,11 @@ public class IDbServiceImpl implements IDbService {
     }
 
     @Override
-    public double getAccountBalance(int accountNumber) throws SQLException {
+    public double getAccountBalance(String accountNumber) throws SQLException {
         String sql = "SELECT balance from bank_account_details WHERE account_number=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-        preparedStatement.setString(1, Integer.toString(accountNumber));
+        preparedStatement.setString(1,accountNumber);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -49,7 +51,7 @@ public class IDbServiceImpl implements IDbService {
     }
 
     @Override
-    public boolean updateAccountBalance(boolean buy, double amount, int accountNumber) throws SQLException {
+    public boolean updateAccountBalance(boolean buy, double amount, String accountNumber) throws SQLException {
         double balance = getAccountBalance(accountNumber);
         if(buy) {
             balance -= amount;
@@ -61,10 +63,31 @@ public class IDbServiceImpl implements IDbService {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         preparedStatement.setDouble(1, balance);
-        preparedStatement.setString(2, Integer.toString(accountNumber));
+        preparedStatement.setString(2, accountNumber);
 
         int count = preparedStatement.executeUpdate();
 
         return count > 1;
+    }
+
+    @Override
+    public SecurityEntity getSecurityEntity(String ticker) throws SQLException {
+        String sql = "SELECT * FROM securities WHERE ticker=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, ticker);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        SecurityEntity security = null;
+
+        while(resultSet.next()) {
+            String name = resultSet.getString(2);
+            double marketPrice = resultSet.getDouble(3);
+            String assetClass = resultSet.getString(4);
+            String accountType = resultSet.getString(5);
+            String subAccountType = resultSet.getString(6);
+
+            security = new SecurityEntity(ticker, name, assetClass, accountType, subAccountType, marketPrice);
+        }
+        return security;
     }
 }

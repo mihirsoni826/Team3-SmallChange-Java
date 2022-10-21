@@ -1,54 +1,26 @@
 package com.smallchange.entities;
 
 public class BuyReqEntity {
-    private String ticker;
-    private String assetClass;
-    private String accountType;
+    private SecurityEntity security;
     private int quantity;
-    private int accountNumber;
     private String dateOfPurchase;
-    private double securityPrice;
-    private long timeMilli;
-    private String buyOrSell;
+    private long timeInMilliseconds;
+    private String accountNumber;
 
-    public String getTicker() {
-        return ticker;
+    public BuyReqEntity(SecurityEntity security, int quantity, String dateOfPurchase, long timeInMilliseconds, String accountNumber) {
+        this.security = security;
+        this.quantity = quantity;
+        this.dateOfPurchase = dateOfPurchase;
+        this.timeInMilliseconds = timeInMilliseconds;
+        this.accountNumber = accountNumber;
     }
 
-    public void setTicker(String ticker) {
-        this.ticker = ticker;
+    public SecurityEntity getSecurity() {
+        return security;
     }
 
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public String getBuyOrSell() {
-        return buyOrSell;
-    }
-
-    public void setBuyOrSell(String buyOrSell) {
-        this.buyOrSell = buyOrSell;
-    }
-
-    public long getTimeMilli() {
-        return timeMilli;
-    }
-
-    public void setTimeMilli(long timeMilli) {
-        this.timeMilli = timeMilli;
-    }
-
-    public String getAssetClass() {
-        return assetClass;
-    }
-
-    public void setAssetClass(String assetClass) {
-        this.assetClass = assetClass;
+    public void setSecurity(SecurityEntity security) {
+        this.security = security;
     }
 
     public int getQuantity() {
@@ -59,14 +31,6 @@ public class BuyReqEntity {
         this.quantity = quantity;
     }
 
-    public int getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(int accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public String getDateOfPurchase() {
         return dateOfPurchase;
     }
@@ -75,23 +39,30 @@ public class BuyReqEntity {
         this.dateOfPurchase = dateOfPurchase;
     }
 
-    public double getSecurityPrice() {
-        return securityPrice;
+    public long getTimeInMilliseconds() {
+        return timeInMilliseconds;
     }
 
-    public void setSecurityPrice(double securityPrice) {
-        this.securityPrice = securityPrice;
+    public void setTimeInMilliseconds(long timeInMilliseconds) {
+        this.timeInMilliseconds = timeInMilliseconds;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     @Override
     public String toString() {
-        return "BuyReqModal {" +
-                "security='" + ticker + '\'' +
-                ", assetClass='" + assetClass + '\'' +
+        return "BuyReqEntity{" +
+                "security=" + security +
                 ", quantity=" + quantity +
-                ", accountNumber=" + accountNumber +
                 ", dateOfPurchase='" + dateOfPurchase + '\'' +
-                ", securityPrice=" + securityPrice +
+                ", timeInMilliseconds=" + timeInMilliseconds +
+                ", accountNumber='" + accountNumber + '\'' +
                 '}';
     }
 }

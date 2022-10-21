@@ -1,4 +1,4 @@
-package com.smallchange.db;
+package com.smallchange.dao;
 
 import com.smallchange.connectionfactory.ConnectionFactory;
 import org.springframework.stereotype.Component;

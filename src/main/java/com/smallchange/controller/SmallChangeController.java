@@ -1,7 +1,9 @@
 package com.smallchange.controller;
 
 import com.smallchange.buytrade.sellTradeServiceImp;
+import com.smallchange.dao.TradeHistoryDaoImpl;
 import com.smallchange.entities.PortfolioEntity;
+import com.smallchange.entities.TradeHistoryEntity;
 import com.smallchange.entities.sellModel;
 import com.smallchange.implementation.BuyTradeServiceImpl;
 import com.smallchange.entities.BuyReqEntity;
@@ -23,6 +25,9 @@ class SmallChangeController {
     @Autowired
     PortfolioServiceImpl portfolioService;
 
+    @Autowired
+    TradeHistoryDaoImpl tradeHistoryService;
+
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
     public boolean postBuyTrade(@RequestBody BuyReqEntity reqBody) {
         return buyTradeSvc.postBuyTrade(reqBody);
@@ -42,5 +47,10 @@ class SmallChangeController {
     @GetMapping(value = "/portfolio/Mutual-funds")
     public List<PortfolioEntity> getAllMutualFunds() throws SQLException {
         return portfolioService.getPortfolioData("Mutual Funds");
+    }
+
+    @GetMapping(value = "/tradehistory")
+    public List<TradeHistoryEntity> getAllTradeHistory() throws SQLException{
+        return tradeHistoryService.getTradeHistory();
     }
 }

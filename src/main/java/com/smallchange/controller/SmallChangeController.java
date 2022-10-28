@@ -1,7 +1,7 @@
 package com.smallchange.controller;
 
 import com.smallchange.buytrade.sellTradeServiceImp;
-import com.smallchange.dao.TradeHistoryDaoImpl;
+import com.smallchange.implementation.TradeHistoryServiceImpl;
 import com.smallchange.entities.PortfolioEntity;
 import com.smallchange.entities.TradeHistoryEntity;
 import com.smallchange.entities.sellModel;
@@ -26,7 +26,7 @@ class SmallChangeController {
     PortfolioServiceImpl portfolioService;
 
     @Autowired
-    TradeHistoryDaoImpl tradeHistoryService;
+    TradeHistoryServiceImpl tradeHistoryService;
 
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
     public boolean postBuyTrade(@RequestBody BuyReqEntity reqBody) {

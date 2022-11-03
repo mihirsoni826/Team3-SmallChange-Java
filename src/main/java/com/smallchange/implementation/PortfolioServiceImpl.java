@@ -1,22 +1,22 @@
 package com.smallchange.implementation;
 
-import com.smallchange.dao.PortfolioDaoImpl;
-import com.smallchange.entities.PortfolioEntity;
+import com.smallchange.entities.Portfolio;
+import com.smallchange.repository.PortfolioRepository;
 import com.smallchange.services.IPortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
-@Component
+@Service
 public class PortfolioServiceImpl implements IPortfolioService {
 
     @Autowired
-    PortfolioDaoImpl portfolioDao;
-
+    private PortfolioRepository repository;
     @Override
-    public List<PortfolioEntity> getPortfolioData(String brokerage_type) throws SQLException {
-        return portfolioDao.getPortfolioData(brokerage_type);
+    public List<Portfolio> getPortfolioData(Long id){
+        return repository.findAllById(Collections.singleton(id));
     }
 }

@@ -2,7 +2,7 @@ package com.smallchange.implementation;
 
 import com.smallchange.dao.BuyDaoImpl;
 import com.smallchange.entities.BuyReqEntity;
-import com.smallchange.entities.SecurityEntity;
+import com.smallchange.entities.Security;
 import com.smallchange.services.IBuyTradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
         Date date = convertMilliToDate(reqBody.getTimeInMilliseconds());
         reqBody.setDateOfPurchase(date.toString());
 
-        SecurityEntity populatedSecurityObj = getSecurityDetails((reqBody.getSecurity().getTicker()));
+        Security populatedSecurityObj = getSecurityDetails((reqBody.getSecurity().getTicker()));
         reqBody.getSecurity().setAccountType(populatedSecurityObj.getAccountType());
         reqBody.getSecurity().setSecurityName(populatedSecurityObj.getSecurityName());
         reqBody.getSecurity().setMarketPrice(populatedSecurityObj.getMarketPrice());
@@ -56,8 +56,8 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
     }
 
     @Override
-    public SecurityEntity getSecurityDetails(String ticker) {
-        SecurityEntity security = null;
+    public Security getSecurityDetails(String ticker) {
+        Security security = null;
         try {
             security = db.getSecurityEntity(ticker);
         } catch (SQLException e) {

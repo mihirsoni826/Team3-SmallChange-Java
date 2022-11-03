@@ -1,13 +1,13 @@
 package com.smallchange.entities;
 
 public class BuyReqEntity {
-    private SecurityEntity security;
+    private Security security;
     private int quantity;
     private String dateOfPurchase;
     private long timeInMilliseconds;
     private String accountNumber;
 
-    public BuyReqEntity(SecurityEntity security, int quantity, String dateOfPurchase, long timeInMilliseconds, String accountNumber) {
+    public BuyReqEntity(Security security, int quantity, String dateOfPurchase, long timeInMilliseconds, String accountNumber) {
         this.security = security;
         this.quantity = quantity;
         this.dateOfPurchase = dateOfPurchase;
@@ -15,11 +15,11 @@ public class BuyReqEntity {
         this.accountNumber = accountNumber;
     }
 
-    public SecurityEntity getSecurity() {
+    public Security getSecurity() {
         return security;
     }
 
-    public void setSecurity(SecurityEntity security) {
+    public void setSecurity(Security security) {
         this.security = security;
     }
 

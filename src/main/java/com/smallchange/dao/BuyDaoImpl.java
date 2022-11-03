@@ -2,7 +2,7 @@ package com.smallchange.dao;
 
 import com.smallchange.connectionfactory.ConnectionFactory;
 import com.smallchange.entities.BuyReqEntity;
-import com.smallchange.entities.SecurityEntity;
+import com.smallchange.entities.Security;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -70,13 +70,13 @@ public class BuyDaoImpl implements IBuyDao {
     }
 
     @Override
-    public SecurityEntity getSecurityEntity(String ticker) throws SQLException {
+    public Security getSecurityEntity(String ticker) throws SQLException {
         String sql = "SELECT * FROM securities WHERE ticker=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, ticker);
 
         ResultSet resultSet = preparedStatement.executeQuery();
-        SecurityEntity security = null;
+        Security security = null;
 
         while(resultSet.next()) {
             String name = resultSet.getString(2);
@@ -85,7 +85,7 @@ public class BuyDaoImpl implements IBuyDao {
             String accountType = resultSet.getString(5);
             String subAccountType = resultSet.getString(6);
 
-            security = new SecurityEntity(ticker, name, assetClass, accountType, subAccountType, marketPrice);
+            security = new Security(ticker, name, assetClass, accountType, subAccountType, marketPrice);
         }
         return security;
     }

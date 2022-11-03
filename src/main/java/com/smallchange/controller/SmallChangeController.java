@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 class SmallChangeController {
@@ -34,13 +35,9 @@ class SmallChangeController {
         return sellTradeSvc.sellTrade(reqBody);
     }
 
-    @RequestMapping(value = "/portfolio/equity/{id}", method = RequestMethod.GET)
-    public List<Portfolio> getAllEquity(@PathVariable Long id) throws SQLException {
-        return portfolioService.getPortfolioData(id);
+    @RequestMapping(value = "/portfolio/{email}", method = RequestMethod.GET)
+    public Optional<List<Portfolio>> getAllPortfolio(@PathVariable String email) throws SQLException {
+        return portfolioService.getPortfolioData(email);
     }
 
-//    @GetMapping(value = "/portfolio/Mutual-funds")
-//    public List<Portfolio> getAllMutualFunds() throws SQLException {
-//        return portfolioService.getPortfolioData("Mutual Funds");
-//    }
 }

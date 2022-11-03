@@ -1,7 +1,6 @@
 package com.smallchange.buytrade;
 
-import com.smallchange.db.DbSellService;
-import com.smallchange.db.IDbServiceImpl;
+import com.smallchange.dao.DbSellService;
 import com.smallchange.entities.sellModel;
 import com.smallchange.services.SellTradeService;
 import org.springframework.beans.factory.annotation.Autowired;

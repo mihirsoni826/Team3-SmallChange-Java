@@ -5,7 +5,7 @@ import com.smallchange.entities.Portfolio;
 import com.smallchange.entities.TradeHistory;
 import com.smallchange.entities.sellModel;
 import com.smallchange.implementation.BuyTradeServiceImpl;
-import com.smallchange.entities.BuyReqEntity;
+import com.smallchange.entities.BuyRequest;
 import com.smallchange.services.IPortfolioService;
 import com.smallchange.services.TradeHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ class SmallChangeController {
     TradeHistoryService tradeHistoryService;
 
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
-    public boolean postBuyTrade(@RequestBody BuyReqEntity reqBody) {
+    public boolean postBuyTrade(@RequestBody BuyRequest reqBody) {
         return buyTradeSvc.postBuyTrade(reqBody);
     }
 

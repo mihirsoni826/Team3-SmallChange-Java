@@ -1,7 +1,7 @@
 package com.smallchange.dao;
 
 import com.smallchange.connectionfactory.ConnectionFactory;
-import com.smallchange.entities.BuyReqEntity;
+import com.smallchange.entities.BuyRequest;
 import com.smallchange.entities.Security;
 import org.springframework.stereotype.Component;
 
@@ -20,15 +20,28 @@ public class BuyDaoImpl implements IBuyDao {
     }
 
     @Override
-    public boolean registerBuyTrade(BuyReqEntity buyReq) {
+    public boolean registerBuyTrade(BuyRequest buyReq) {
 //        writeToTradeHistory(buyReq);
         System.out.println("Trade bought");
         return true;
     }
 
-    private boolean writeToTradeHistory(BuyReqEntity buyReq) throws SQLException {
+    private boolean writeToTradeHistory(BuyRequest buyReq) throws SQLException {
         String sql = "INSERT INTO trade_history VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        Security security = buyReq.getSecurity();
+        preparedStatement.setInt(1, 6);
+        preparedStatement.setString(2, security.getTicker());
+        preparedStatement.setString(3, security.getSecurityName());
+        preparedStatement.setString(4, security.getSecurityName());
+        preparedStatement.setString(5, security.getAccountType());
+        preparedStatement.setString(6, buyReq.getDateOfPurchase());
+        preparedStatement.setString(7, buyReq.getBUY());
+        preparedStatement.setString(8, security.getAssetClass());
+        preparedStatement.setDouble(9, security.getMarketPrice());
+        preparedStatement.setInt(10, buyReq.getQuantity());
+
         return true;
     }
 

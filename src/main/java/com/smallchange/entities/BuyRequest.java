@@ -13,7 +13,6 @@ public class BuyRequest {
     private String dateOfPurchase;
     private long timeInMilliseconds;
     private String accountNumber;
-    private String email;
+    private Users user;
     private final String BUY = "Buy";
-
 }

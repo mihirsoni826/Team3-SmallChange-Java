@@ -39,9 +39,7 @@ class SmallChangeController {
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/portfolio", method = RequestMethod.POST, consumes="application/json")
     public Optional<List<Portfolio>> getAllPortfolio(@RequestBody LoginPayload loginPayload) {
-        System.out.println(loginPayload);
-        String email = loginPayload.getEmail();
-        return portfolioService.getPortfolioData(email);
+        return portfolioService.getPortfolioData(loginPayload.getEmail());
     }
 
 }

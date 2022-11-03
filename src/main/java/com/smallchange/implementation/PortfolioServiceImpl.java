@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PortfolioServiceImpl implements IPortfolioService {
@@ -16,7 +17,7 @@ public class PortfolioServiceImpl implements IPortfolioService {
     @Autowired
     private PortfolioRepository repository;
     @Override
-    public List<Portfolio> getPortfolioData(Long id){
-        return repository.findAllById(Collections.singleton(id));
+    public Optional<List<Portfolio>> getPortfolioData(String email){
+        return repository.findAllByEmail(email);
     }
 }

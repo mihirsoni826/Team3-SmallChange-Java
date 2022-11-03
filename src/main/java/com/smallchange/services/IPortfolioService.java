@@ -10,4 +10,6 @@ import java.util.Optional;
 @Service
 public interface IPortfolioService {
     Optional<List<Portfolio>> getPortfolioData(String email);
+
+    Portfolio savePortfolio (Portfolio portobj);
 }

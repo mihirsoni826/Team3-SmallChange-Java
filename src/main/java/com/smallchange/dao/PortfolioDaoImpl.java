@@ -1,8 +1,7 @@
 package com.smallchange.dao;
 
 import com.smallchange.connectionfactory.ConnectionFactory;
-import com.smallchange.dao.IPortfolioDao;
-import com.smallchange.entities.PortfolioEntity;
+import com.smallchange.entities.Portfolio;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -22,7 +21,7 @@ public class PortfolioDaoImpl implements IPortfolioDao {
     }
 
     @Override
-    public List<PortfolioEntity> getPortfolioData(String brokerage_type) throws SQLException {
+    public List<Portfolio> getPortfolioData(String brokerage_type) throws SQLException {
         String sql = "SELECT p.ticker,avg_buy_price,quantity,current_market_price FROM Portfolio p \n" +
                 "LEFT JOIN Securities s on p.ticker=s.ticker where s.sub_account_type=?";
 
@@ -30,16 +29,16 @@ public class PortfolioDaoImpl implements IPortfolioDao {
         stmt.setString(1, brokerage_type);
         ResultSet rs = stmt.executeQuery();
 
-        List<PortfolioEntity> portfolioData = new ArrayList<>();
+        List<Portfolio> portfolioData = new ArrayList<>();
         while (rs.next()) {
-            String ticker = rs.getString("ticker");
-            double avg_buy_price = rs.getDouble("avg_buy_price");
-            int quantity = rs.getInt("quantity");
-            double ltp = rs.getDouble("current_market_price");
-
-            PortfolioEntity p = new PortfolioEntity(ticker, quantity, avg_buy_price,ltp);
-            portfolioData.add(p);
-            System.out.println(p);
+//            String ticker = rs.getString("ticker");
+//            double avg_buy_price = rs.getDouble("avg_buy_price");
+//            int quantity = rs.getInt("quantity");
+//            double ltp = rs.getDouble("current_market_price");
+//
+//            PortfolioEntity p = new PortfolioEntity(ticker, quantity, avg_buy_price,ltp);
+//            portfolioData.add(p);
+//            System.out.println(p);
         }
         return portfolioData;
     }

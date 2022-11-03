@@ -1,6 +1,7 @@
 package com.smallchange.controller;
 
 import com.smallchange.buytrade.sellTradeServiceImp;
+import com.smallchange.entities.LoginPayload;
 import com.smallchange.entities.Portfolio;
 import com.smallchange.entities.sellModel;
 import com.smallchange.implementation.BuyTradeServiceImpl;
@@ -35,8 +36,11 @@ class SmallChangeController {
         return sellTradeSvc.sellTrade(reqBody);
     }
 
-    @RequestMapping(value = "/portfolio/{email}", method = RequestMethod.GET)
-    public Optional<List<Portfolio>> getAllPortfolio(@PathVariable String email) throws SQLException {
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/portfolio", method = RequestMethod.POST, consumes="application/json")
+    public Optional<List<Portfolio>> getAllPortfolio(@RequestBody LoginPayload loginPayload) {
+        System.out.println(loginPayload);
+        String email = loginPayload.getEmail();
         return portfolioService.getPortfolioData(email);
     }
 

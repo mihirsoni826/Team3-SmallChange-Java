@@ -10,4 +10,5 @@ import java.util.Optional;
 @Service
 public interface TradeHistoryService {
     Optional<List<TradeHistory>> getTradeHistoryData(String email);
+    TradeHistory saveTradeHistory(TradeHistory tradeHistory);
 }

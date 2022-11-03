@@ -19,4 +19,9 @@ public class TradeHistoryServiceImpl implements TradeHistoryService {
     public Optional<List<TradeHistory>> getTradeHistoryData(String email) {
         return tradeHistoryRepository.findAllByEmail(email);
     }
+
+    @Override
+    public TradeHistory saveTradeHistory(TradeHistory tradeHistory) {
+        return tradeHistoryRepository.save(tradeHistory);
+    }
 }

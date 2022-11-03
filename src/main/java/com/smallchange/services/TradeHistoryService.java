@@ -1,10 +1,13 @@
 package com.smallchange.services;
 
-import com.smallchange.entities.TradeHistoryEntity;
+import com.smallchange.entities.Portfolio;
+import com.smallchange.entities.TradeHistory;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public interface TradeHistoryService {
-    List<TradeHistoryEntity> getTradeHistory() throws SQLException;
+    Optional<List<TradeHistory>> getTradeHistoryData(String email);
 }

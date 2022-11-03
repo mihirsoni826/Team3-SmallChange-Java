@@ -1,23 +1,22 @@
 package com.smallchange.implementation;
 
-import com.smallchange.dao.PortfolioDaoImpl;
-import com.smallchange.dao.TradeHistoryDaoImpl;
-import com.smallchange.entities.TradeHistoryEntity;
+import com.smallchange.entities.TradeHistory;
+import com.smallchange.repository.TradeHistoryRepository;
 import com.smallchange.services.TradeHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
-@Component
+@Service
 public class TradeHistoryServiceImpl implements TradeHistoryService {
 
     @Autowired
-    TradeHistoryDaoImpl tradeHistoryDao;
+    private TradeHistoryRepository tradeHistoryRepository;
 
     @Override
-    public List<TradeHistoryEntity> getTradeHistory() throws SQLException {
-        return tradeHistoryDao.getTradeHistory();
+    public Optional<List<TradeHistory>> getTradeHistoryData(String email) {
+        return tradeHistoryRepository.findAllByEmail(email);
     }
 }

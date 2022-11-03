@@ -3,7 +3,7 @@ package com.smallchange.controller;
 import com.smallchange.buytrade.sellTradeServiceImp;
 import com.smallchange.entities.sellModel;
 import com.smallchange.implementation.BuyTradeServiceImpl;
-import com.smallchange.entities.BuyReqEntity;
+import com.smallchange.entities.BuyRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ class SmallChangeController {
     sellTradeServiceImp sellTradeSvc;
 
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
-    public boolean postBuyTrade(@RequestBody BuyReqEntity reqBody) {
+    public boolean postBuyTrade(@RequestBody BuyRequest reqBody) {
         return buyTradeSvc.postBuyTrade(reqBody);
     }
 

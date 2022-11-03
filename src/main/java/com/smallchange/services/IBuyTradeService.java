@@ -1,11 +1,9 @@
 package com.smallchange.services;
 
-import com.smallchange.entities.BuyReqEntity;
-import com.smallchange.entities.SecurityEntity;
-
-import java.util.List;
+import com.smallchange.entities.BuyRequest;
+import com.smallchange.entities.Security;
 
 public interface IBuyTradeService {
-    boolean postBuyTrade(BuyReqEntity reqBody);
-    SecurityEntity getSecurityDetails(String ticker);
+    boolean postBuyTrade(BuyRequest reqBody);
+    Security getSecurityDetails(String ticker);
 }

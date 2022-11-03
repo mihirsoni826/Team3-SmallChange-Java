@@ -1,16 +1,16 @@
 package com.smallchange.dao;
 
-import com.smallchange.entities.BuyReqEntity;
-import com.smallchange.entities.SecurityEntity;
+import com.smallchange.entities.BuyRequest;
+import com.smallchange.entities.Security;
 
 import java.sql.SQLException;
 
 public interface IBuyDao {
-    boolean registerBuyTrade(BuyReqEntity buyReq);
+    boolean registerBuyTrade(BuyRequest buyReq);
 
     double getAccountBalance(String accountNumber) throws SQLException;
 
     boolean updateAccountBalance(boolean buy, double amount, String accountNumber) throws SQLException;
 
-    SecurityEntity getSecurityEntity(String ticker) throws SQLException;
+    Security getSecurityEntity(String ticker) throws SQLException;
 }

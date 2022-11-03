@@ -1,8 +1,8 @@
 package com.smallchange.dao;
 
 import com.smallchange.connectionfactory.ConnectionFactory;
-import com.smallchange.entities.BuyReqEntity;
-import com.smallchange.entities.SecurityEntity;
+import com.smallchange.entities.BuyRequest;
+import com.smallchange.entities.Security;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -20,15 +20,28 @@ public class BuyDaoImpl implements IBuyDao {
     }
 
     @Override
-    public boolean registerBuyTrade(BuyReqEntity buyReq) {
+    public boolean registerBuyTrade(BuyRequest buyReq) {
 //        writeToTradeHistory(buyReq);
         System.out.println("Trade bought");
         return true;
     }
 
-    private boolean writeToTradeHistory(BuyReqEntity buyReq) throws SQLException {
+    private boolean writeToTradeHistory(BuyRequest buyReq) throws SQLException {
         String sql = "INSERT INTO trade_history VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        Security security = buyReq.getSecurity();
+        preparedStatement.setInt(1, 6);
+        preparedStatement.setString(2, security.getTicker());
+        preparedStatement.setString(3, security.getSecurityName());
+        preparedStatement.setString(4, security.getSecurityName());
+        preparedStatement.setString(5, security.getAccountType());
+        preparedStatement.setString(6, buyReq.getDateOfPurchase());
+        preparedStatement.setString(7, buyReq.getBUY());
+        preparedStatement.setString(8, security.getAssetClass());
+        preparedStatement.setDouble(9, security.getMarketPrice());
+        preparedStatement.setInt(10, buyReq.getQuantity());
+
         return true;
     }
 
@@ -70,13 +83,13 @@ public class BuyDaoImpl implements IBuyDao {
     }
 
     @Override
-    public SecurityEntity getSecurityEntity(String ticker) throws SQLException {
+    public Security getSecurityEntity(String ticker) throws SQLException {
         String sql = "SELECT * FROM securities WHERE ticker=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, ticker);
 
         ResultSet resultSet = preparedStatement.executeQuery();
-        SecurityEntity security = null;
+        Security security = null;
 
         while(resultSet.next()) {
             String name = resultSet.getString(2);
@@ -85,7 +98,7 @@ public class BuyDaoImpl implements IBuyDao {
             String accountType = resultSet.getString(5);
             String subAccountType = resultSet.getString(6);
 
-            security = new SecurityEntity(ticker, name, assetClass, accountType, subAccountType, marketPrice);
+            security = new Security(ticker, name, assetClass, accountType, subAccountType, marketPrice);
         }
         return security;
     }

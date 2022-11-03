@@ -1,28 +1,20 @@
 package com.smallchange.implementation;
 
-import com.smallchange.dao.BuyDaoImpl;
-import com.smallchange.entities.BuyRequest;
-import com.smallchange.entities.Portfolio;
-import com.smallchange.entities.Security;
-import com.smallchange.entities.Users;
-import com.smallchange.repository.PortfolioRepository;
+import com.smallchange.entities.*;
+import com.smallchange.repository.BankAccountRepository;
 import com.smallchange.repository.SecurityRepository;
 import com.smallchange.repository.UserRepository;
 import com.smallchange.services.IBuyTradeService;
 import com.smallchange.services.IPortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-@Component
+@Service
 public class BuyTradeServiceImpl implements IBuyTradeService {
-
-    @Autowired
-    BuyDaoImpl db;
 
     @Autowired
     IPortfolioService portfolioService;
@@ -33,8 +25,13 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BankAccountRepository bankAccountRepository;
+
     public boolean sufficientBalance(String accountNumber, double value) throws SQLException {
-        double balance = db.getAccountBalance(accountNumber);
+        BankAccount account = bankAccountRepository.findById(accountNumber).orElse(null);
+        assert account != null;
+        double balance = account.getBalance();
         return balance >= value;
     }
 
@@ -67,7 +64,7 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
 
         try {
             if(sufficientBalance(reqBody.getAccountNumber(), value)) {
-                boolean balanceUpdated = db.updateAccountBalance(true, value, reqBody.getAccountNumber());
+                updateAccountBalance(reqBody.getAccountNumber(), value);
                 Map<String, Portfolio> resultMap = existInPortfolio(reqBody);
                 boolean tickerPresentInPortfolio = resultMap.containsKey("true");
                 if(tickerPresentInPortfolio) {
@@ -84,6 +81,12 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
             throw new RuntimeException(e);
         }
         return true;
+    }
+
+    public void updateAccountBalance(String accountNumber, double value) {
+        BankAccount account = bankAccountRepository.findById(accountNumber).orElse(null);
+        assert account != null;
+        account.setBalance(account.getBalance() - value);
     }
 
     public void addPortfolio(BuyRequest buyRequest) {
@@ -130,19 +133,15 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
         Map<String, Portfolio> existInPortfolioResultMap = new HashMap<>();
 
         if(portfolioData == null) {
+            System.err.println("New user entry");
             existInPortfolioResultMap.put("false", null);
             return existInPortfolioResultMap;
         }
 
         Map<String, Portfolio> resultMap = tickerExists(portfolioData, buyRequest.getSecurity().getTicker());
         if(resultMap.containsKey("true")) {
+            System.err.println("Existing ticker");
             Portfolio updatePortfolio = resultMap.get("true");
-
-//            updatePortfolio.setQuantity(updatePortfolio.getQuantity() + buyRequest.getQuantity());
-//            double avgBuyPrice = (updatePortfolio.getAvg_buy_price() + buyRequest.getSecurity().getMarketPrice()) / 2;
-//            updatePortfolio.setAvg_buy_price(avgBuyPrice);
-//            Portfolio obj = portfolioService.savePortfolio(updatePortfolio);
-
             existInPortfolioResultMap.put("true", updatePortfolio);
         }
         else {

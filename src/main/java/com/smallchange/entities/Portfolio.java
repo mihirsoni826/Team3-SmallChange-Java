@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @ToString
 @Data
@@ -27,8 +25,9 @@ public class Portfolio {
     @Column(name = "AVG_BUY_PRICE")
     private double avg_buy_price;
 
-    @Column(name="USER_EMAIL")
-    private String user_email;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EMAIL", nullable = false)
+    private Users user;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TICKER")

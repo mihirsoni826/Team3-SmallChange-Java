@@ -15,11 +15,6 @@ import javax.persistence.*;
 @Table(schema = "scott", name = "SECURITY")
 public class Security {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
-//    private Long id;
-
     @Id
     @Column(name = "TICKER")
     private String ticker;

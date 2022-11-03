@@ -40,12 +40,14 @@ class SmallChangeController {
         return sellTradeSvc.sellTrade(reqBody);
     }
 
+
     @RequestMapping(value = "/portfolio/{email}", method = RequestMethod.GET)
     public Optional<List<Portfolio>> getAllPortfolio(@PathVariable String email) throws SQLException {
         return portfolioService.getPortfolioData(email);
     }
 
-    @RequestMapping(value = "/trade-history", method = RequestMethod.GET, consumes="application/json")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/trade-history", method = RequestMethod.POST, consumes="application/json")
     public Optional<List<TradeHistory>> getAllTradeHistoryData(@RequestBody TradeHistory history) throws SQLException {
         return tradeHistoryService.getTradeHistoryData(history.getEmail());
     }

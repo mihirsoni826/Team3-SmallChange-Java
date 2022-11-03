@@ -45,9 +45,9 @@ class SmallChangeController {
         return portfolioService.getPortfolioData(email);
     }
 
-    @RequestMapping(value = "/trade-history/{email}", method = RequestMethod.GET)
-    public Optional<List<TradeHistory>> getAllTradeHistoryData(@PathVariable String email) throws SQLException {
-        return tradeHistoryService.getTradeHistoryData(email);
+    @RequestMapping(value = "/trade-history", method = RequestMethod.GET, consumes="application/json")
+    public Optional<List<TradeHistory>> getAllTradeHistoryData(@RequestBody TradeHistory history) throws SQLException {
+        return tradeHistoryService.getTradeHistoryData(history.getEmail());
     }
 
 }

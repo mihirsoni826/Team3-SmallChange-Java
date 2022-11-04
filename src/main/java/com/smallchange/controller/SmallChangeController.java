@@ -1,6 +1,6 @@
 package com.smallchange.controller;
 
-import com.smallchange.buytrade.sellTradeServiceImp;
+import com.smallchange.implementation.sellTradeServiceImp;
 import com.smallchange.entities.Portfolio;
 import com.smallchange.entities.TradeHistory;
 import com.smallchange.entities.sellModel;

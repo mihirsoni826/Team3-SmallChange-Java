@@ -29,7 +29,7 @@ public class Portfolio {
     @JoinColumn(name = "EMAIL", nullable = false)
     private Users user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "TICKER")
     private Security security;
 

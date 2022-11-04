@@ -16,8 +16,14 @@ public class PortfolioServiceImpl implements IPortfolioService {
 
     @Autowired
     private PortfolioRepository repository;
+
     @Override
     public Optional<List<Portfolio>> getPortfolioData(String email){
         return repository.findAllByEmail(email);
+    }
+
+    @Override
+    public Portfolio savePortfolio(Portfolio portfolio) {
+        return repository.save(portfolio);
     }
 }

@@ -1,12 +1,13 @@
 package com.smallchange.controller;
 
 import com.smallchange.buytrade.sellTradeServiceImp;
-import com.smallchange.entities.LoginPayload;
 import com.smallchange.entities.Portfolio;
+import com.smallchange.entities.TradeHistory;
 import com.smallchange.entities.sellModel;
 import com.smallchange.implementation.BuyTradeServiceImpl;
-import com.smallchange.entities.BuyReqEntity;
+import com.smallchange.entities.BuyRequest;
 import com.smallchange.services.IPortfolioService;
+import com.smallchange.services.TradeHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,11 @@ class SmallChangeController {
     @Autowired
     IPortfolioService portfolioService;
 
+    @Autowired
+    TradeHistoryService tradeHistoryService;
+
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
-    public boolean postBuyTrade(@RequestBody BuyReqEntity reqBody) {
+    public boolean postBuyTrade(@RequestBody BuyRequest reqBody) {
         return buyTradeSvc.postBuyTrade(reqBody);
     }
 
@@ -36,10 +40,16 @@ class SmallChangeController {
         return sellTradeSvc.sellTrade(reqBody);
     }
 
+
+    @RequestMapping(value = "/portfolio/{email}", method = RequestMethod.GET)
+    public Optional<List<Portfolio>> getAllPortfolio(@PathVariable String email) throws SQLException {
+        return portfolioService.getPortfolioData(email);
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/portfolio", method = RequestMethod.POST, consumes="application/json")
-    public Optional<List<Portfolio>> getAllPortfolio(@RequestBody LoginPayload loginPayload) {
-        return portfolioService.getPortfolioData(loginPayload.getEmail());
+    @RequestMapping(value = "/trade-history", method = RequestMethod.POST, consumes="application/json")
+    public Optional<List<TradeHistory>> getAllTradeHistoryData(@RequestBody TradeHistory history) throws SQLException {
+        return tradeHistoryService.getTradeHistoryData(history.getEmail());
     }
 
 }

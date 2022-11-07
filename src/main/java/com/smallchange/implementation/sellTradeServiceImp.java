@@ -35,7 +35,7 @@ public class sellTradeServiceImp implements SellTradeService {
         Portfolio portObj;
         try {
 
-            portObj=repository.findSec(ticker);
+            portObj=repository.findSec(ticker, reqBody.getUser().getEmail());
             Security populatedSecurityObj = buyImp.getSecurityDetails((reqBody.getSecurity().getTicker()));
             reqBody = populateSecurityInBuyRequest(reqBody, populatedSecurityObj);
 

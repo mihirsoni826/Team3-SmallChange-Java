@@ -21,8 +21,8 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     public Optional<List<Portfolio>> findAllByEmail(String email);
 
 
-    @Query("from Portfolio where ticker = :ticker ")
-    public Portfolio findSec(String ticker);
+    @Query("from Portfolio where ticker = :ticker and email = :email")
+    public Portfolio findSec(String ticker, String email);
 
     @Transactional
     @Modifying

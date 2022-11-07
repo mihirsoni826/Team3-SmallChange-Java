@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface IBankAccountService {
     BankAccount updateBankAccountDetails(BankAccount bankAccount);
     Optional<BankAccount> getBankAccountByAccountNumber(String accountNumber);
+    Optional<BankAccount> getBankDetailsForUser(String email);
 }

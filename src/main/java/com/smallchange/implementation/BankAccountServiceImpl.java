@@ -23,4 +23,9 @@ public class BankAccountServiceImpl implements IBankAccountService {
     public Optional<BankAccount> getBankAccountByAccountNumber(String accountNumber) {
         return repository.findById(accountNumber);
     }
+
+    @Override
+    public Optional<BankAccount> getBankDetailsForUser(String email) {
+        return repository.findByEmail(email);
+    }
 }

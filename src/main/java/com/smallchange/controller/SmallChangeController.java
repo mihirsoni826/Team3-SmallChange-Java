@@ -43,8 +43,10 @@ class SmallChangeController {
     @Autowired
     IBankAccountService bankAccountService;
 
+    @Autowired
     IUserService userService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignUp(@RequestBody Users user) {
         return userService.saveUser(user);

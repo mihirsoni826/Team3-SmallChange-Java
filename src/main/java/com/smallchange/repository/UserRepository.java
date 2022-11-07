@@ -4,4 +4,7 @@ import com.smallchange.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<Users, String> {
+    boolean existsByEmail(String email);
+
+    Users findByEmail(String email);
 }

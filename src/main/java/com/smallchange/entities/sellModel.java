@@ -15,7 +15,7 @@ public class sellModel {
     private int accountNumber;
     private String dateOfPurchase;
     private double securityPrice;
-    private long timeMilli;
+    private long timeInMilliseconds;
     private Users user;
     public static final String SELL = "Sell";
 

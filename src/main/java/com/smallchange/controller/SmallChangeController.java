@@ -64,7 +64,7 @@ class SmallChangeController {
     }
 
     @RequestMapping(value = "/sell-trade", method = RequestMethod.POST, consumes="application/json")
-    public String sell(@RequestBody sellModel reqBody) {
+    public boolean sell(@RequestBody sellModel reqBody) {
         return sellTradeSvc.sellTrade(reqBody);
     }
 

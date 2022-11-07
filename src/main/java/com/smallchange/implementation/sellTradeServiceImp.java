@@ -1,8 +1,6 @@
 package com.smallchange.implementation;
 
-import com.smallchange.dao.DbSellService;
 import com.smallchange.entities.*;
-import com.smallchange.implementation.PortfolioServiceImpl;
 import com.smallchange.repository.PortfolioRepository;
 import com.smallchange.repository.TradeHistoryRepository;
 import com.smallchange.services.IPortfolioService;
@@ -22,11 +20,15 @@ public class sellTradeServiceImp implements SellTradeService {
     @Autowired
     private PortfolioRepository repository;
 
+
+    @Autowired
+    private BuyTradeServiceImpl buyImp;
+
     @Autowired
     private TradeHistoryRepository tradeRepo;
 
     @Override
-    public String sellTrade(sellModel reqBody) {
+    public boolean sellTrade(sellModel reqBody) {
 
         String ticker=reqBody.getSecurity().getTicker();
 
@@ -34,28 +36,21 @@ public class sellTradeServiceImp implements SellTradeService {
         try {
 
             portObj=repository.findSec(ticker);
+            Security populatedSecurityObj = buyImp.getSecurityDetails((reqBody.getSecurity().getTicker()));
+            reqBody = populateSecurityInBuyRequest(reqBody, populatedSecurityObj);
 
             if(portObj==null)
-                return "Stock not present in portfolio";
+                return false;
 
             int res= portObj.getQuantity() - reqBody.getQuantity();
             TradeHistory tradeHistory = new TradeHistory();
+            Security security = reqBody.getSecurity();
 
-            tradeHistory.setTicker(ticker);
-            tradeHistory.setSecurityName("CRM");
-            tradeHistory.setAccountType("BRokerage");
-            tradeHistory.setTransactionDate(new Timestamp(reqBody.getTimeMilli()));
-            tradeHistory.setTradeType(sellModel.SELL);
-            tradeHistory.setAssetClass("index");
-            tradeHistory.setTradePrice(100);
-            tradeHistory.setQuantity(portObj.getQuantity());
-            tradeHistory.setEmail(portObj.getUser().getEmail());
 
-            tradeRepo.save(tradeHistory);
 
             if(res<0)
             {
-               return (" quantity not available");
+               return false;
             }
             else if(res > 0)
             {
@@ -64,13 +59,15 @@ public class sellTradeServiceImp implements SellTradeService {
                 portObj=service.savePortfolio(portObj);
                 if(portObj.getQuantity()==res)
                 {
-                   return ("Sell Succesfull");
+                    setTradeHistory(  tradeHistory, security, reqBody);
+                   return true;
                 }
             }
             else
             {
                 repository.deleteById(portObj.getId());
-                   return ("Sell Succesfull");
+                setTradeHistory(  tradeHistory, security, reqBody);
+                   return true;
 
             }
 
@@ -80,6 +77,35 @@ public class sellTradeServiceImp implements SellTradeService {
 
 
 
-        return "Failed";
+        return false;
     }
+
+
+    public void setTradeHistory( TradeHistory tradeHistory, Security security,sellModel reqBody){
+        tradeHistory.setTicker(security.getTicker());
+        tradeHistory.setSecurityName(security.getSecurityName());
+        tradeHistory.setAccountType(security.getAccountType());
+        tradeHistory.setTransactionDate(new Timestamp(reqBody.getTimeInMilliseconds()));
+        tradeHistory.setTradeType(BuyRequest.BUY);
+        tradeHistory.setAssetClass(security.getAssetClass());
+        tradeHistory.setTradePrice(security.getMarketPrice() * reqBody.getQuantity());
+        tradeHistory.setQuantity(reqBody.getQuantity());
+        tradeHistory.setEmail(reqBody.getUser().getEmail());
+
+        tradeRepo.save(tradeHistory);
+    }
+
+
+    public sellModel populateSecurityInBuyRequest(sellModel reqBody, Security populatedSecurityObj) {
+        reqBody.getSecurity().setAccountType(populatedSecurityObj.getAccountType());
+        reqBody.getSecurity().setSecurityName(populatedSecurityObj.getSecurityName());
+        reqBody.getSecurity().setMarketPrice(populatedSecurityObj.getMarketPrice());
+        reqBody.getSecurity().setAssetClass(populatedSecurityObj.getAssetClass());
+        reqBody.getSecurity().setSubAccountType(populatedSecurityObj.getSubAccountType());
+
+        return reqBody;
+    }
+
+
+
 }

@@ -1,7 +1,9 @@
 package com.smallchange.controller;
 
-import com.smallchange.buytrade.sellTradeServiceImp;
+
+import com.smallchange.implementation.sellTradeServiceImp;
 import com.smallchange.entities.*;
+
 import com.smallchange.implementation.BuyTradeServiceImpl;
 
 import com.smallchange.payload.UserEmailPayload;

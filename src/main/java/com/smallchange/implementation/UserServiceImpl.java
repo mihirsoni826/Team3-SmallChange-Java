@@ -1,9 +1,14 @@
 package com.smallchange.implementation;
 
+import com.smallchange.entities.LoginPayload;
 import com.smallchange.entities.Users;
 import com.smallchange.repository.UserRepository;
 import com.smallchange.services.IUserService;
+import org.apache.catalina.User;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,5 +22,35 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Optional<Users> getUserByEmail(String email) {
         return repository.findById(email);
+    }
+
+    private String hashPassword(String plainTextPassword){
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+    }
+    @Override
+    public ResponseEntity<?> saveUser(Users user) {
+        if(repository.existsByEmail(user.getEmail())) {
+            return new ResponseEntity<>("email is already taken!", HttpStatus.BAD_REQUEST);
+        }
+
+        user.setPassword(hashPassword(user.getPassword()));
+        repository.save(user);
+        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+    }
+
+    private boolean checkPassword(String plainPassword, String hashedPassword) {
+        if (BCrypt.checkpw(plainPassword, hashedPassword))
+            return true;
+        else
+            return false;
+    }
+    @Override
+    public ResponseEntity<?> authenticateUser(LoginPayload loginPayload) {
+        Users user = repository.findByEmail(loginPayload.getEmail());
+
+        if(checkPassword(loginPayload.getPassword(),user.getPassword()))
+            return new ResponseEntity<>("User signed in successfully", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Invalid credentials!", HttpStatus.BAD_REQUEST);
     }
 }

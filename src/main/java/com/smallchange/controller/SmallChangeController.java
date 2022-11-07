@@ -1,14 +1,13 @@
 package com.smallchange.controller;
 
 import com.smallchange.buytrade.sellTradeServiceImp;
-import com.smallchange.entities.Portfolio;
-import com.smallchange.entities.TradeHistory;
-import com.smallchange.entities.sellModel;
+import com.smallchange.entities.*;
 import com.smallchange.implementation.BuyTradeServiceImpl;
-import com.smallchange.entities.BuyRequest;
 import com.smallchange.services.IPortfolioService;
+import com.smallchange.services.IUserService;
 import com.smallchange.services.TradeHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -29,6 +28,19 @@ class SmallChangeController {
     @Autowired
     TradeHistoryService tradeHistoryService;
 
+    @Autowired
+    IUserService userService;
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json")
+    public ResponseEntity<?> postSignUp(@RequestBody Users user) {
+        return userService.saveUser(user);
+    }
+
+    @RequestMapping(value = "/signin", method = RequestMethod.POST, consumes="application/json")
+    public ResponseEntity<?> postSignIn(@RequestBody LoginPayload loginPayload) {
+        return userService.authenticateUser(loginPayload);
+    }
+
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
     public boolean postBuyTrade(@RequestBody BuyRequest reqBody) {
         return buyTradeSvc.postBuyTrade(reqBody);
@@ -40,10 +52,10 @@ class SmallChangeController {
         return sellTradeSvc.sellTrade(reqBody);
     }
 
-
-    @RequestMapping(value = "/portfolio/{email}", method = RequestMethod.GET)
-    public Optional<List<Portfolio>> getAllPortfolio(@PathVariable String email) throws SQLException {
-        return portfolioService.getPortfolioData(email);
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/portfolio", method = RequestMethod.POST, consumes="application/json")
+    public Optional<List<Portfolio>> getAllPortfolio(@RequestBody LoginPayload loginPayload) throws SQLException {
+        return portfolioService.getPortfolioData(loginPayload.getEmail());
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

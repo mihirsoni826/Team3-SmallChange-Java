@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginPayload {
     String email;
+    String password;
 }

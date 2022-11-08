@@ -39,7 +39,6 @@ class SmallChangeController {
     TradeHistoryService tradeHistoryService;
 
     @Autowired
-
     ISecurityService securityService;
 
     @Autowired
@@ -54,6 +53,7 @@ class SmallChangeController {
         return userService.saveUser(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signin", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignIn(@RequestBody LoginPayload loginPayload) {
         return userService.authenticateUser(loginPayload);

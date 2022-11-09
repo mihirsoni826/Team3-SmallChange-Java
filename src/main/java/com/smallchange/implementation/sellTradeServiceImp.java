@@ -86,7 +86,7 @@ public class sellTradeServiceImp implements SellTradeService {
         tradeHistory.setSecurityName(security.getSecurityName());
         tradeHistory.setAccountType(security.getAccountType());
         tradeHistory.setTransactionDate(new Timestamp(reqBody.getTimeInMilliseconds()));
-        tradeHistory.setTradeType(BuyRequest.BUY);
+        tradeHistory.setTradeType(sellModel.SELL);
         tradeHistory.setAssetClass(security.getAssetClass());
         tradeHistory.setTradePrice(security.getMarketPrice() * reqBody.getQuantity());
         tradeHistory.setQuantity(reqBody.getQuantity());

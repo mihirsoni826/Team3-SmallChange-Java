@@ -37,4 +37,9 @@ public class BankAccountServiceImpl implements IBankAccountService {
 
         return result;
     }
+
+    @Override
+    public void createBankAccount(BankAccount bankAccount) {
+        repository.save(bankAccount);
+    }
 }

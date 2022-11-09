@@ -6,6 +6,8 @@ import com.smallchange.services.IBankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,7 +27,14 @@ public class BankAccountServiceImpl implements IBankAccountService {
     }
 
     @Override
-    public Optional<BankAccount> getBankDetailsForUser(String email) {
-        return repository.findByEmail(email);
+    public List<BankAccount> getBankDetailsForUser(String email) {
+        List<Optional<BankAccount>> details =  repository.findByEmail(email);
+        List<BankAccount> result = new ArrayList<>();
+
+        for(Optional<BankAccount> b: details) {
+            result.add(b.orElse(null));
+        }
+
+        return result;
     }
 }

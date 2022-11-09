@@ -1,7 +1,9 @@
 package com.smallchange.controller;
 
-import com.smallchange.buytrade.sellTradeServiceImp;
+
+import com.smallchange.implementation.sellTradeServiceImp;
 import com.smallchange.entities.*;
+
 import com.smallchange.implementation.BuyTradeServiceImpl;
 
 import com.smallchange.payload.UserEmailPayload;
@@ -37,19 +39,21 @@ class SmallChangeController {
     TradeHistoryService tradeHistoryService;
 
     @Autowired
-
     ISecurityService securityService;
 
     @Autowired
     IBankAccountService bankAccountService;
 
+    @Autowired
     IUserService userService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignUp(@RequestBody Users user) {
         return userService.saveUser(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signin", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignIn(@RequestBody LoginPayload loginPayload) {
         return userService.authenticateUser(loginPayload);
@@ -62,7 +66,7 @@ class SmallChangeController {
     }
 
     @RequestMapping(value = "/sell-trade", method = RequestMethod.POST, consumes="application/json")
-    public String sell(@RequestBody sellModel reqBody) {
+    public boolean sell(@RequestBody sellModel reqBody) {
         return sellTradeSvc.sellTrade(reqBody);
     }
 

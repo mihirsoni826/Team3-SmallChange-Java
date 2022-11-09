@@ -30,12 +30,13 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ResponseEntity<?> saveUser(Users user) {
         if(repository.existsByEmail(user.getEmail())) {
-            return new ResponseEntity<>("email is already taken!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>( null, HttpStatus.BAD_REQUEST);
         }
 
         user.setPassword(hashPassword(user.getPassword()));
         repository.save(user);
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 
     private boolean checkPassword(String plainPassword, String hashedPassword) {
@@ -49,7 +50,7 @@ public class UserServiceImpl implements IUserService {
         Users user = repository.findByEmail(loginPayload.getEmail());
 
         if(checkPassword(loginPayload.getPassword(),user.getPassword()))
-            return new ResponseEntity<>("User signed in successfully", HttpStatus.OK);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         else
             return new ResponseEntity<>("Invalid credentials!", HttpStatus.BAD_REQUEST);
     }

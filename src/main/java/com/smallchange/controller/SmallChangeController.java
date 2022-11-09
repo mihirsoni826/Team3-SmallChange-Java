@@ -39,7 +39,6 @@ class SmallChangeController {
     TradeHistoryService tradeHistoryService;
 
     @Autowired
-
     ISecurityService securityService;
 
     @Autowired
@@ -48,11 +47,13 @@ class SmallChangeController {
     @Autowired
     IUserService userService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignUp(@RequestBody Users user) {
         return userService.saveUser(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signin", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignIn(@RequestBody LoginPayload loginPayload) {
         return userService.authenticateUser(loginPayload);

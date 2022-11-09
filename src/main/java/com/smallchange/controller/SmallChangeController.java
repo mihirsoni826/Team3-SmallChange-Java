@@ -1,20 +1,11 @@
 package com.smallchange.controller;
 
 
-import com.smallchange.implementation.sellTradeServiceImp;
 import com.smallchange.entities.*;
-
 import com.smallchange.implementation.BuyTradeServiceImpl;
-
+import com.smallchange.implementation.sellTradeServiceImp;
 import com.smallchange.payload.UserEmailPayload;
-import com.smallchange.services.IBankAccountService;
-import com.smallchange.services.IPortfolioService;
-import com.smallchange.services.ISecurityService;
-
-import com.smallchange.services.IPortfolioService;
-import com.smallchange.services.IUserService;
-
-import com.smallchange.services.TradeHistoryService;
+import com.smallchange.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -86,8 +77,8 @@ class SmallChangeController {
     }
 
     @PostMapping("/bank-details")
-    public BankAccount getBankAccountDetails(@RequestBody UserEmailPayload payload) {
-        return bankAccountService.getBankDetailsForUser(payload.getEmail()).orElse(null);
+    public List<BankAccount> getBankAccountDetails(@RequestBody UserEmailPayload payload) {
+        return bankAccountService.getBankDetailsForUser(payload.getEmail());
     }
 
 }

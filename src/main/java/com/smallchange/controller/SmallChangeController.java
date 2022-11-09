@@ -50,6 +50,12 @@ class SmallChangeController {
         return userService.authenticateUser(loginPayload);
     }
 
+    @RequestMapping(value = "/user", method = RequestMethod.POST, consumes="application/json")
+    public Users postSignIn(@RequestBody Users user) {
+        System.out.println(user);
+        return userService.getUserByEmail(user.getEmail()).orElse(null);
+    }
+
 
     @RequestMapping(value = "/buy-trade", method = RequestMethod.POST, consumes="application/json")
     public boolean postBuyTrade(@RequestBody BuyRequest reqBody) {

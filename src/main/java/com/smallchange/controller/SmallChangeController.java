@@ -41,6 +41,8 @@ class SmallChangeController {
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignUp(@RequestBody Users user) {
+        BankAccount newBankAccount = new BankAccount("1029465738", "Kotak Mahindra Bank", 10000, user.getEmail());
+        bankAccountService.createBankAccount(newBankAccount);
         return userService.saveUser(user);
     }
 

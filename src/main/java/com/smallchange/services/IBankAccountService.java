@@ -11,4 +11,5 @@ public interface IBankAccountService {
     BankAccount updateBankAccountDetails(BankAccount bankAccount);
     Optional<BankAccount> getBankAccountByAccountNumber(String accountNumber);
     List<BankAccount> getBankDetailsForUser(String email);
+    void createBankAccount(BankAccount bankAccount);
 }

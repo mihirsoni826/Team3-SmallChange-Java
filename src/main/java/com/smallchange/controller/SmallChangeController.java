@@ -45,6 +45,7 @@ class SmallChangeController {
     @Autowired
     IBankAccountService bankAccountService;
 
+    @Autowired
     IUserService userService;
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json")
@@ -55,6 +56,12 @@ class SmallChangeController {
     @RequestMapping(value = "/signin", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> postSignIn(@RequestBody LoginPayload loginPayload) {
         return userService.authenticateUser(loginPayload);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST, consumes="application/json")
+    public Users postSignIn(@RequestBody Users user) {
+        System.out.println(user);
+        return userService.getUserByEmail(user.getEmail()).orElse(null);
     }
 
 

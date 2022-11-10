@@ -12,7 +12,7 @@ public class sellModel {
     private Security security;
 
     private int quantity;
-    private int accountNumber;
+    private String accountNumber;
     private String dateOfPurchase;
     private double securityPrice;
     private long timeInMilliseconds;

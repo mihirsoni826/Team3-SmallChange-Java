@@ -15,8 +15,8 @@ import java.sql.Date;
 @Table(schema = "scott", name = "USER_DETAILS")
 public class Users {
     @Id
-    @Column(name = "EMAIL")
-    private String email;
+    @Column(name = "EMAIL", nullable = false, unique = true)
+    public String email;
 
     @Column(name = "PASSWORD")
     private String password;

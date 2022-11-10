@@ -4,7 +4,6 @@ import com.smallchange.entities.LoginPayload;
 import com.smallchange.entities.Users;
 import com.smallchange.repository.UserRepository;
 import com.smallchange.services.IUserService;
-import org.apache.catalina.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,11 +46,20 @@ public class UserServiceImpl implements IUserService {
     }
     @Override
     public ResponseEntity<?> authenticateUser(LoginPayload loginPayload) {
-        Users user = repository.findByEmail(loginPayload.getEmail());
+        System.err.println(loginPayload);
+        Users user = repository.findById(loginPayload.getEmail()).orElse(null);
 
-        if(checkPassword(loginPayload.getPassword(),user.getPassword()))
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        else
-            return new ResponseEntity<>("Invalid credentials!", HttpStatus.BAD_REQUEST);
+        if(user != null) {
+            if(checkPassword(loginPayload.getPassword(),user.getPassword())) {
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>("Invalid credentials!", HttpStatus.OK);
+            }
+        }
+        else {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+
     }
 }

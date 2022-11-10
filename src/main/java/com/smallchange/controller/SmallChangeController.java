@@ -54,7 +54,7 @@ class SmallChangeController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST, consumes="application/json")
     public Users postSignIn(@RequestBody Users user) {
-        System.out.println(user);
+//        System.out.println(user);
         return userService.getUserByEmail(user.getEmail()).orElse(null);
     }
 

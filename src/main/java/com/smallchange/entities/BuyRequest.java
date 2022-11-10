@@ -14,5 +14,6 @@ public class BuyRequest {
     private long timeInMilliseconds;
     private String accountNumber;
     private Users user;
+    private boolean feeApplicable;
     public static final String BUY = "Buy";
 }

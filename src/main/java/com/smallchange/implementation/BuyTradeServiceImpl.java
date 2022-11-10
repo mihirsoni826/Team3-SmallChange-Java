@@ -62,7 +62,13 @@ public class BuyTradeServiceImpl implements IBuyTradeService {
         reqBody = populateUserInBuyRequest(reqBody, populatedUserObj);
 
         System.err.println(reqBody);
-        double value = reqBody.getQuantity() * reqBody.getSecurity().getMarketPrice();
+        double transactionValue = reqBody.getQuantity() * reqBody.getSecurity().getMarketPrice();
+
+        if(reqBody.isFeeApplicable())
+            transactionValue += 0.0025 * transactionValue;
+
+        double value = transactionValue;
+        System.err.println(value);
 
         try {
             if(sufficientBalance(reqBody.getAccountNumber(), value)) {
